@@ -1,0 +1,32 @@
+---
+kind: Template
+apiVersion: template.openshift.io/v1
+metadata:
+  name: imagestreamTemplate
+  creationTimestamp:
+  annotations:
+    description: This template will create two imageStreams.
+    tags: ''
+objects:
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    name: bc-imagestream-src${IDENTIFIER}
+  spec:
+    dockerImageRepository: "${IMAGE}"
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    name: bc-imagestream-dest${IDENTIFIER}
+  spec: {}
+parameters:
+- name: IDENTIFIER
+  description: Number to append to the name of resources
+  value: '1'
+  required: true
+- name: IMAGE
+  description: Image to use for this image stream
+  value: quay.io/openshift-scale/mastervertical-build
+  required: false
+labels:
+  template: imagestreamTemplate

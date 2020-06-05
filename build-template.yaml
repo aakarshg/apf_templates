@@ -1,0 +1,42 @@
+---
+kind: Template
+apiVersion: template.openshift.io/v1
+metadata:
+  name: buildTemplate
+  creationTimestamp:
+  annotations:
+    description: This template will create a single build.
+    tags: ''
+objects:
+- apiVersion: v1
+  kind: Build
+  metadata:
+    name: build${IDENTIFIER}-1
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: build-imagestream-dest${IDENTIFIER}:latest
+    resources: {}
+    serviceAccount: builder
+    source:
+      dockerfile: |-
+        FROM quay.io/openshift-scale/mastervertical-build
+        USER example
+      git:
+        uri: https://github.com/openshift-scale/hello-openshift.git
+      secrets:
+      type: Git
+    strategy:
+      sourceStrategy:
+        from:
+          kind: DockerImage
+          name: quay.io/openshift-scale/mastervertical-build:latest
+      type: Source
+parameters:
+- name: IDENTIFIER
+  description: Number to append to the name of resources
+  value: '1'
+  required: true
+labels:
+  template: buildTemplate

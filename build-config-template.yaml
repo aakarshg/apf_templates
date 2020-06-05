@@ -1,0 +1,44 @@
+---
+kind: Template
+apiVersion: template.openshift.io/v1
+metadata:
+  name: buildConfigTemplate
+  creationTimestamp:
+  annotations:
+    description: This template will create a single buildConfig.
+    tags: ''
+objects:
+- kind: BuildConfig
+  apiVersion: v1
+  metadata:
+    name: buildconfig${IDENTIFIER}
+  spec:
+    triggers:
+    - type: GitHub
+      github:
+        secret: hello-openshift-secret${IDENTIFIER}
+    - type: ImageChange
+    source:
+      type: Git
+      git:
+        uri: https://github.com/openshift-scale/hello-openshift.git
+      dockerfile: |-
+        FROM quay.io/openshift-scale/mastervertical-build
+        USER 1001
+    strategy:
+      type: Source
+      sourceStrategy:
+        from:
+          kind: ImageStreamTag
+          name: bc-imagestream-src${IDENTIFIER}:latest
+    output:
+      to:
+        kind: ImageStreamTag
+        name: bc-imagestream-dest${IDENTIFIER}:latest
+parameters:
+- name: IDENTIFIER
+  description: Number to append to the name of resources
+  value: '1'
+  required: true
+labels:
+  template: buildConfigTemplate
