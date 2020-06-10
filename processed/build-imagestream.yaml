@@ -1,0 +1,18 @@
+{
+    "kind": "List",
+    "apiVersion": "v1",
+    "metadata": {},
+    "items": [
+        {
+            "apiVersion": "image.openshift.io/v1",
+            "kind": "ImageStream",
+            "metadata": {
+                "labels": {
+                    "template": "imagestreamTemplate"
+                },
+                "name": "build-imagestream-dest1"
+            },
+            "spec": {}
+        }
+    ]
+}

@@ -1,0 +1,31 @@
+{
+    "kind": "List",
+    "apiVersion": "v1",
+    "metadata": {},
+    "items": [
+        {
+            "apiVersion": "image.openshift.io/v1",
+            "kind": "ImageStream",
+            "metadata": {
+                "labels": {
+                    "template": "imagestreamTemplate"
+                },
+                "name": "bc-imagestream-src1"
+            },
+            "spec": {
+                "dockerImageRepository": "quay.io/openshift-scale/mastervertical-build"
+            }
+        },
+        {
+            "apiVersion": "image.openshift.io/v1",
+            "kind": "ImageStream",
+            "metadata": {
+                "labels": {
+                    "template": "imagestreamTemplate"
+                },
+                "name": "bc-imagestream-dest1"
+            },
+            "spec": {}
+        }
+    ]
+}

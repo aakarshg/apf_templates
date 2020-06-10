@@ -1,0 +1,108 @@
+{
+    "kind": "List",
+    "apiVersion": "v1",
+    "metadata": {},
+    "items": [
+        {
+            "apiVersion": "apps.openshift.io/v1",
+            "kind": "DeploymentConfig",
+            "metadata": {
+                "labels": {
+                    "template": "deploymentConfigTemplate"
+                },
+                "name": "deploymentconfig1"
+            },
+            "spec": {
+                "replicas": 1,
+                "selector": {
+                    "name": "replicationcontroller1"
+                },
+                "strategy": {
+                    "type": "Rolling"
+                },
+                "template": {
+                    "metadata": {
+                        "labels": {
+                            "name": "replicationcontroller1"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "capabilities": {},
+                                "env": [
+                                    {
+                                        "name": "ENVVAR1_1",
+                                        "value": "ULt70et6h2fMOBVctdIdhdH1v6XyAOJF7WsVWV3tUxe3fmDJb1UEh6TLbxPFvfueSOgmmiVTpdDFjDpYb7aLWJU0dHR73iXW8XIPG1JHgVhrKd1Kn65OMQEcaOxOqQamnMMdIwcDyyUdGomlnoBUyKHia6Lnq0By2glXCwXE4xJpYrB3UQykWLtmBC0iuS6jqhB7M5paM2jOYqWXJF5SMw3UO386OpCQHBthnUYvuhYs2wXN6kM8OiCvPGNaBCu"
+                                    },
+                                    {
+                                        "name": "ENVVAR2_1",
+                                        "value": "ULt70et6h2fMOBVctdIdhdH1v6XyAOJF7WsVWV3tUxe3fmDJb1UEh6TLbxPFvfueSOgmmiVTpdDFjDpYb7aLWJU0dHR73iXW8XIPG1JHgVhrKd1Kn65OMQEcaOxOqQamnMMdIwcDyyUdGomlnoBUyKHia6Lnq0By2glXCwXE4xJpYrB3UQykWLtmBC0iuS6jqhB7M5paM2jOYqWXJF5SMw3UO386OpCQHBthnUYvuhYs2wXN6kM8OiCvPGNaBCu"
+                                    },
+                                    {
+                                        "name": "ENVVAR3_1",
+                                        "value": "ULt70et6h2fMOBVctdIdhdH1v6XyAOJF7WsVWV3tUxe3fmDJb1UEh6TLbxPFvfueSOgmmiVTpdDFjDpYb7aLWJU0dHR73iXW8XIPG1JHgVhrKd1Kn65OMQEcaOxOqQamnMMdIwcDyyUdGomlnoBUyKHia6Lnq0By2glXCwXE4xJpYrB3UQykWLtmBC0iuS6jqhB7M5paM2jOYqWXJF5SMw3UO386OpCQHBthnUYvuhYs2wXN6kM8OiCvPGNaBCu"
+                                    },
+                                    {
+                                        "name": "ENVVAR4_1",
+                                        "value": "ULt70et6h2fMOBVctdIdhdH1v6XyAOJF7WsVWV3tUxe3fmDJb1UEh6TLbxPFvfueSOgmmiVTpdDFjDpYb7aLWJU0dHR73iXW8XIPG1JHgVhrKd1Kn65OMQEcaOxOqQamnMMdIwcDyyUdGomlnoBUyKHia6Lnq0By2glXCwXE4xJpYrB3UQykWLtmBC0iuS6jqhB7M5paM2jOYqWXJF5SMw3UO386OpCQHBthnUYvuhYs2wXN6kM8OiCvPGNaBCu"
+                                    }
+                                ],
+                                "image": "gcr.io/google-containers/pause-amd64:3.0",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "pause1",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "securityContext": {
+                                    "capabilities": {},
+                                    "privileged": false
+                                }
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "serviceAccount": ""
+                    }
+                },
+                "triggers": [
+                    {
+                        "type": "ConfigChange"
+                    }
+                ]
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "labels": {
+                    "template": "deploymentConfigTemplate"
+                },
+                "name": "service1"
+            },
+            "spec": {
+                "portalIP": "",
+                "ports": [
+                    {
+                        "name": "serviceport1",
+                        "port": 80,
+                        "protocol": "TCP",
+                        "targetPort": 8080
+                    }
+                ],
+                "selector": {
+                    "name": "replicationcontroller1"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        }
+    ]
+}

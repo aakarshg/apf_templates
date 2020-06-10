@@ -1,0 +1,52 @@
+{
+    "kind": "List",
+    "apiVersion": "v1",
+    "metadata": {},
+    "items": [
+        {
+            "apiVersion": "build.openshift.io/v1",
+            "kind": "BuildConfig",
+            "metadata": {
+                "labels": {
+                    "template": "buildConfigTemplate"
+                },
+                "name": "buildconfig1"
+            },
+            "spec": {
+                "output": {
+                    "to": {
+                        "kind": "ImageStreamTag",
+                        "name": "bc-imagestream-dest1:latest"
+                    }
+                },
+                "source": {
+                    "dockerfile": "FROM quay.io/openshift-scale/mastervertical-build\nUSER 1001",
+                    "git": {
+                        "uri": "https://github.com/openshift-scale/hello-openshift.git"
+                    },
+                    "type": "Git"
+                },
+                "strategy": {
+                    "sourceStrategy": {
+                        "from": {
+                            "kind": "ImageStreamTag",
+                            "name": "bc-imagestream-src1:latest"
+                        }
+                    },
+                    "type": "Source"
+                },
+                "triggers": [
+                    {
+                        "github": {
+                            "secret": "hello-openshift-secret1"
+                        },
+                        "type": "GitHub"
+                    },
+                    {
+                        "type": "ImageChange"
+                    }
+                ]
+            }
+        }
+    ]
+}
